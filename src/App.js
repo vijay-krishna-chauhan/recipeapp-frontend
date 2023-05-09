@@ -1,24 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import { useContext, useEffect } from "react";
+import "./App.css";
+import Navbar from "./Components/Navbar/index";
+import Home from "./Pages/Home";
+import axios from "./Axios";
+import { MyContext } from "./Context";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import ErrorPage from "./Pages/404/404";
+import Login from "./Pages/Login/Login";
+import Signup from "./Pages/Signup/Signup";
+import Favorites from "./Pages/Favorites/Favorites";
 
 function App() {
+  const { user, setUser } = useContext(MyContext);
+  useEffect(() => {
+    axios.post("/auto-login").then(({ data }) => setUser(data));
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+
+        {!user && (
+          <>
+            {" "}
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+          </>
+        )}
+        {user && (
+          <Route exact path="/my-favorites">
+            <Favorites/>
+          </Route>
+        )}
+
+        <Route>
+          <ErrorPage />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

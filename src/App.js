@@ -18,7 +18,7 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-    <Router>
+   
       <Navbar />
       <Switch>
         <Route exact path="/">
@@ -46,7 +46,6 @@ function App() {
           <ErrorPage />
         </Route>
       </Switch>
-    </Router>
     </BrowserRouter>
   );
 }

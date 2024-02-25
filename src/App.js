@@ -5,7 +5,7 @@ import Navbar from "./Components/Navbar/index";
 import Home from "./Pages/Home";
 import axios from "./Axios";
 import { MyContext } from "./Context";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Route, BrowserRouter, Router, Switch } from "react-router-dom";
 import ErrorPage from "./Pages/404/404";
 import Login from "./Pages/Login/Login";
 import Signup from "./Pages/Signup/Signup";
@@ -17,6 +17,7 @@ function App() {
     axios.post("/auto-login").then(({ data }) => setUser(data));
   }, []);
   return (
+    <BrowserRouter>
     <Router>
       <Navbar />
       <Switch>
@@ -46,6 +47,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
+    </BrowserRouter>
   );
 }
 

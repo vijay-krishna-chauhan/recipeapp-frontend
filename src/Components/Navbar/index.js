@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { MyContext } from "../../Context";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "../../Axios";
+import { Link } from "react-router-dom";
 function AppNavbar() {
   const history = useHistory();
   const { user, setUser } = useContext(MyContext);
@@ -20,15 +21,15 @@ function AppNavbar() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">Recipes App</Navbar.Brand>
+        <Link to="/">Recipes App</Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          {/* <Nav.Link href="/">Home</Nav.Link> */}
+          {/* <Nav.Link to="/">Home</Nav.Link> */}
           {!user && (
             <Nav className="me-auto">
               <>
-                <Nav.Link href="/login">Login</Nav.Link>
-                <Nav.Link href="/signup">Signup</Nav.Link>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Signup</Link>
               </>
             </Nav>
           )}

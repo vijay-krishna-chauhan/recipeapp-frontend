@@ -37,7 +37,7 @@ export default function MyJumbo(){
             onChange={(e)=> setSearchInput(e.target.value)}
             />
             <Button variant="danger" id="meal-search-button" onClick={handleSearch}>
-                Button
+                Search
             </Button>
         </InputGroup>
         </div>

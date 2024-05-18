@@ -1,46 +1,63 @@
+// 
+
 import { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { LinkContainer } from "react-router-bootstrap";
 import { MyContext } from "../../Context";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "../../Axios";
 import { Link } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
+
 function AppNavbar() {
   const history = useHistory();
   const { user, setUser } = useContext(MyContext);
+
   const handleLogout = () => {
+    console.log("Logging out..."); // Add this line
     axios.post("/logout").then(() => {
       localStorage.removeItem("token");
       setUser(null);
       history.replace("/");
+    }).catch(error => {
+      console.error("Logout failed:", error); // Add this line
     });
   };
+  
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Link to="/">Recipes App</Link>
+        <LinkContainer to="/">
+          <Navbar.Brand>Recipes App</Navbar.Brand>
+        </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          {/* <Nav.Link to="/">Home</Nav.Link> */}
-          {!user && (
-            <Nav className="me-auto">
+          <Nav className="me-auto">
+            <LinkContainer to="/">
+              <Nav.Link>Home</Nav.Link>
+            </LinkContainer>
+          </Nav>
+          <Nav>
+            {!user ? (
               <>
-                <Link to="/login">Login</Link>
-                <Link to="/signup">Signup</Link>
+                <LinkContainer to="/login">
+                  <Nav.Link>Login</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/signup">
+                  <Nav.Link>Signup</Nav.Link>
+                </LinkContainer>
               </>
-            </Nav>
-          )}
-          {user && (
-            <>
-              <Nav.Link href="/my-favorites">Favorites</Nav.Link>
-              <Nav.Link href="/logout" onClick={handleLogout}>
-                Logout
-              </Nav.Link>
-            </>
-          )}
+            ) : (
+              <>
+                <LinkContainer to="/my-favorites">
+                  <Nav.Link>Favorites</Nav.Link>
+                </LinkContainer>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              </>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -13,9 +13,27 @@ import Favorites from "./Pages/Favorites/Favorites";
 
 function App() {
   const { user, setUser } = useContext(MyContext);
+
+  // useEffect(() => {
+  //   axios.post("/auto-login").then(({ data }) => setUser(data));
+  // }, []);
   useEffect(() => {
-    axios.post("/auto-login").then(({ data }) => setUser(data));
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Token found, proceed with auto-login
+      axios.post('/auto-login')
+        .then(({ data }) => {
+          // Auto-login successful, set user context
+          setUser(data);
+        })
+        .catch((error) => {
+          console.error('Auto-login failed:', error);
+          // Handle auto-login failure (e.g., clear invalid token)
+          localStorage.removeItem('token');
+        });
+    }
   }, []);
+
   return (
     <BrowserRouter>
    

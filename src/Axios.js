@@ -1,6 +1,7 @@
 import axios from "axios"
 // axios.defaults.baseURL = "http://localhost:5000";
-axios.defaults.baseURL = "https://recipe-backend-jcxr.onrender.com/"
+
+axios.defaults.baseURL = "https://recipeappbackend4.onrender.com/";
 axios.interceptors.request.use(
 	(config) => {
 		const token = localStorage.getItem("token")
